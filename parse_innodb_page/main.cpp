@@ -51,9 +51,9 @@ int main(int argc, char **argv) {
 		if (ivc->filhead.file_page_type == 0x45bf && ivc->pagehead.page_level == 0) {
 			cout << "record_type: " << int(ivc->infisupre.infirechead.record_type) << " order: " << ivc->infisupre.infirechead.record_order << " infivalue: " << ivc->infisupre.infivalue << endl;
 			cout << "record_type: " << int(ivc->infisupre.suprerechead.record_type) << " order: " << ivc->infisupre.suprerechead.record_order << " suprevalue: " << endl;
-			/*	for (std::vector<Rec>::const_iterator vr = ivc->recs.cbegin(); vr != ivc->recs.cend(); vr++) {
-			cout <<"record_type "<<int(vr->rechead.record_type)<<" order:"<<vr->rechead.record_order<<" Id: "<<vr->id <<endl;
-			}*/
+			for (std::vector<Rec>::const_iterator vr = ivc->recs.cbegin(); vr != ivc->recs.cend(); vr++) {
+				cout << "record_type " << int(vr->rechead.record_type) << " order:" << vr->rechead.record_order << " Id: " << vr->id << endl;
+			}
 		}
 	}
 
