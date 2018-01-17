@@ -216,7 +216,6 @@ public:
 	char suprevalue[8];
 	Infisupre() = default;
 	Infisupre(std::ifstream &is) {
-		//is.seekg(is.tellg(), -5);
 		infirechead = Recheadfixed(is);
 		is.read(infivalue, 8);
 		suprerechead = Recheadfixed(is);
@@ -231,11 +230,13 @@ class Rec {
 public:
 	Recheadfixed rechead;
 	uint32_t id;
+	uint64_t trx_id;
 	Rec() = default;
 	Rec(std::ifstream &is) {
 		uint32_t pos = is.tellg();
 		rechead = Recheadfixed(is);
-		byte_swap(is, id);
+		byte_swap(is,id);
+		id = id & 0x7fffffff;
 		is.seekg(pos + rechead.record_next_offset);
 	}
 };
@@ -259,11 +260,12 @@ public:
 	std::vector<Rec> recs;
 	Innodbpage() = default;
 	Innodbpage(std::ifstream &is) :filhead(is), pagehead(is), infisupre(is) {
+		int pos = filhead.file_page_offset*INNODB_PAGE_SZIE+99;
 		if (filhead.file_page_type == 0x45bf) {
-			is.seekg(99 - 5 + infisupre.infirechead.record_next_offset);
+			is.seekg(pos + infisupre.infirechead.record_next_offset-5);
 			for (int i = 0; i < pagehead.page_n_recs; i++)
 				recs.push_back(Rec(is));
-			;
+			
 
 
 		}
