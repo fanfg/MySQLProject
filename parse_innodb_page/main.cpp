@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <algorithm>
 #include "innodb_page.h"
 using std::cout;
 using std::endl;
@@ -20,9 +21,12 @@ void get_table_record_count(const std::vector<Innodbpage>  *iv) {
 		}
 	}
 
-	for (std::map<uint64_t, uint64_t>::const_iterator mc = indexid_n_record.cbegin(); mc != indexid_n_record.cend(); mc++) {
-		cout << "index_id : " << mc->first << " record_count: " << mc->second << endl;;
-	}
+	//for (std::map<uint64_t, uint64_t>::const_iterator mc = indexid_n_record.cbegin(); mc != indexid_n_record.cend(); mc++) {
+	//	cout << "index_id : " << mc->first << " record_count: " << mc->second << endl;
+	//}
+
+
+	std::for_each(indexid_n_record.cbegin(), indexid_n_record.cend(), [](std::map<uint64_t, uint64_t>::value_type   mc) {cout << "index_id : " << mc.first << " record_count: " << mc.second << endl; });
 
 
 }
