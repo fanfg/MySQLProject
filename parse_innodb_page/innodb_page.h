@@ -5,6 +5,7 @@
 #include <vector>
 #include <map>
 #include <string>
+#include "../parse_binlog/binlog.h"
 
 /*innodb page size default 16K */
 const int INNODB_PAGE_SZIE = 16 * 1024;
