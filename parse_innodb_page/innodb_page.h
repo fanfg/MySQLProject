@@ -46,6 +46,8 @@ innodb_page_direction={
 */
 
 
+
+
 enum type_size {
 	short_type = 2,
 	int_type = 4,
@@ -70,6 +72,23 @@ void byte_swap(std::ifstream &is, T &num) {
 		break;
 	}
 }
+
+void get_table_colname_coltype(std::ifstream &is) {
+	std::map<std::string, uint16_t> colname_coltype;
+	is.seekg(0x2102);
+	uint16_t n_columns;
+	byte_swap(is, n_columns);
+	is.seekg(0x2152);
+	for (int i = 0; i < 1; i++) {
+		uint64_t colname_length = UnPackedLength(is);
+		char *colname = new char(colname_length + 1);
+		is.read(colname, colname_length + 1);
+		colname_coltype[colname] = colname_length;
+		std::cout << " col "<<i<<" : " << colname << endl;
+	}
+
+}
+
 
 /*total 38 bytes*/
 class Fileheader {

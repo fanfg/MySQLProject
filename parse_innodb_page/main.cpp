@@ -28,7 +28,9 @@ void get_table_record_count(const std::vector<Innodbpage>  *iv) {
 }
 
 int main(int argc, char **argv) {
-	std::ifstream fil("E:\\MySQL\\data\\test\\test.ibd", std::ifstream::binary);
+	std::string file_name = argv[1];
+	//"E:\MySQL\data\test\test.ibd"
+	std::ifstream fil(file_name , std::ifstream::binary);
 	if (!fil.is_open())
 		assert("file is not open");
 	fil.seekg(0, std::ios::end);
@@ -56,5 +58,10 @@ int main(int argc, char **argv) {
 			}
 		}
 	}
+
+	std::string file_frm = file_name.replace(file_name.size()-3,3, "frm");
+	std::ifstream fil_frm(file_frm, std::ifstream::binary);
+	get_table_colname_coltype(fil_frm);
+	//int col_type= enum_field_types::
 
 }

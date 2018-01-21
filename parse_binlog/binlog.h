@@ -359,8 +359,8 @@ uint32_t maxDisplayLengthForField(enum_field_types columnType, uint32_t metadata
 	}
 }
 
-unsigned long long  UnPackedLength(std::ifstream &infile) {
-	unsigned long long column;
+uint64_t UnPackedLength(std::ifstream &infile) {
+	uint64_t column;
 	uint8_t firstbyte;
 	infile.read((char *)&firstbyte, 1);
 	if (firstbyte >= 0 && firstbyte<251)
@@ -371,6 +371,7 @@ unsigned long long  UnPackedLength(std::ifstream &infile) {
 		infile.read((char *)&column, 3);
 	else
 		infile.read((char *)&column, 8);
+	return column;
 }
 
 
