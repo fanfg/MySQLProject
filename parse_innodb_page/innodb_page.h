@@ -85,6 +85,7 @@ void get_table_colname_coltype(std::ifstream &is) {
 		is.read(colname, colname_length + 1);
 		colname_coltype[colname] = colname_length;
 		std::cout << " col "<<i<<" : " << colname << endl;
+		delete colname;
 	}
 
 }
