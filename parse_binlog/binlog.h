@@ -446,7 +446,7 @@ public:
 
 
 	void GetAllEventTypesPostHeaderLength() {
-		for (int i = 0; i <post_header_len.size(); i++) {
+		for (uint8_t i = 0; i <post_header_len.size(); i++) {
 			printf(" type %d: %d\n", i + 1, post_header_len[i]);
 		}
 	}

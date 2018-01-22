@@ -65,7 +65,9 @@ int main(int argc, char **argv) {
 
 	std::string file_frm = file_name.replace(file_name.size()-3,3, "frm");
 	std::ifstream fil_frm(file_frm, std::ifstream::binary);
-	get_table_colname_coltype(fil_frm);
+	//get_table_colname_coltype(fil_frm);
 	//int col_type= enum_field_types::
+
+	return 0;
 
 }
