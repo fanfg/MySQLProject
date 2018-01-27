@@ -182,14 +182,7 @@ public:
 
 };
 
-/*
-class Infimumsupremumrecords(object):
-def __init__(self,page):
-self.infimumextra=page[94:99].encode('hex')
-self.infimumrecord=page[99:107].encode('hex')
-self.supremumextra=page[107:112].encode('hex')
-self.supremumrecord=page[112:119].encode('hex')
-*/
+
 class  Recheadfixed {
 public:
 	/*del bit mask  4 bit*/
