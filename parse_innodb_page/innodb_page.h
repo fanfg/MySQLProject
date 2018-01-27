@@ -250,14 +250,14 @@ public:
 class Rec {
 public:
 	Recheadfixed rechead;
-	uint32_t id;
+	int32_t id;
 	uint64_t trx_id;
 	Rec() = default;
 	Rec(std::ifstream &is) {
 		uint32_t pos = is.tellg();
 		rechead = Recheadfixed(is);
 		byte_swap(is,id);
-		id = id & 0x7fffffff;
+		id = id & INT32_MAX;
 		is.seekg(pos + rechead.record_next_offset);
 	}
 };
