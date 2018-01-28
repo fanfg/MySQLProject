@@ -136,7 +136,7 @@ public:
 	uint16_t  page_n_dir_slots;
 	/* record pointer to first record in heap  where freespace start */
 	uint16_t  page_heap_top;
-	/* number of heap records; initial value = 2 (redundant)  0x0802(Compact) 0x8000(compact)*/
+	/* number of heap records; initial value = 2 (redundant)  0x8002(compact)*/
 	uint16_t  page_n_heap;
 	/* record pointer to first free record*/
 	uint16_t  page_free;
@@ -166,6 +166,7 @@ public:
 		byte_swap(is, page_n_dir_slots);
 		byte_swap(is, page_heap_top);
 		byte_swap(is, page_n_heap);
+		page_n_heap = page_n_heap & INT16_MAX;
 		byte_swap(is, page_free);
 		byte_swap(is, page_garbage);
 		byte_swap(is, page_last_insert);
