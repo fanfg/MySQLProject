@@ -10,6 +10,8 @@ using std::cout;
 using std::endl;
 
 
+
+
 void get_table_record_count(const std::vector<Innodbpage>  *iv) {
 
 	assert((iv->size()) > 0 ? true : false);
@@ -30,6 +32,8 @@ void get_table_record_count(const std::vector<Innodbpage>  *iv) {
 
 
 }
+
+
 
 int main(int argc, char **argv) {
 	std::string file_name = argv[1];
@@ -63,12 +67,27 @@ int main(int argc, char **argv) {
 				cout << "record_type " << int(vr->rechead.record_type) << " order:" << vr->rechead.record_order << " Id: " << vr->id << " offset:" << vr->rechead.record_next_offset << endl;
 			}
 		}
+
 	}
+
+	std::vector<std::string>* v_column_name=new(std::vector<std::string>);
+	std::vector< uint8_t>* v_column_type=new(std::vector< uint8_t>);
 
 	std::string file_frm = file_name.replace(file_name.size() - 3, 3, "frm");
 	std::ifstream fil_frm(file_frm, std::ifstream::binary);
-	//get_table_colname_coltype(fil_frm);
+	get_table_colname_coltype(fil_frm, v_column_name, v_column_type);
+
 	//int col_type= enum_field_types::
+	std::vector<filed_section> *v_field_sections=new (std::vector<filed_section>);
+
+	for (int i = 0; i < v_column_name->size(); i++) {
+
+		cout << "column : " << i << " name : " << (*v_column_name)[i] << " type :" << int((*v_column_type)[i] ) << " datalength: "<< getMetadataLength( (*v_column_type)[i] ) << endl;
+		
+		v_field_sections->push_back(filed_section{ i, (*v_column_name)[i], (*v_column_type)[i], 0, getMetadataLength((*v_column_type)[i]) });
+	}
+
+
 
 	return 0;
 

@@ -250,7 +250,7 @@ uint16_t getMetadataLength(uint8_t fieldType) {
 		break;
 	}
 	}
-	return metadataLength;
+	return length;
 
 
 

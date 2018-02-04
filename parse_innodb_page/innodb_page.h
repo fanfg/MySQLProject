@@ -73,20 +73,45 @@ void byte_swap(std::ifstream &is, T &num) {
 	}
 }
 
-void get_table_colname_coltype(std::ifstream &is) {
-	std::map<std::string, uint16_t> colname_coltype;
+void  get_table_colname_coltype(std::ifstream &is, std::vector<std::string>* v_column_name, std::vector< uint8_t>* v_column_type ) {
+	
+	v_column_name->clear();
+	v_column_type->clear();
 	is.seekg(0x2102);
+	/* column counts */
 	uint16_t n_columns;
-	byte_swap(is, n_columns);
-	is.seekg(0x2152);
-	for (int i = 0; i < 1; i++) {
+	is.read((char *) &n_columns,2); 
+	n_columns = n_columns & 0x7fff;
+	is.seekg(0x2150);
+	
+	/*get the vector of the field name */
+	for (int i = 0; i < n_columns; i++) {
+		uint8_t order;
+		is.read((char *)&order, 1);
+		std::cout << "order: " << int(order);
+		uint8_t com_len;
+		is.read((char *)&com_len, 1);
 		uint64_t colname_length = UnPackedLength(is);
-		char *colname = new char(colname_length + 1);
-		is.read(colname, colname_length + 1);
-		colname_coltype[colname] = colname_length;
+		char *colname = new char(colname_length);
+		is.read(colname, colname_length );
 		std::cout << " col "<<i<<" : " << colname << endl;
-		delete colname;
+		v_column_name->push_back(colname);
+	
 	}
+
+	/*get the vector of the field type */
+	for (int i = 0; i < n_columns; i++) {
+		uint8_t section_filed[17];
+		is.read((char *)section_filed, 17);
+		//std::cout << " col " << i << " : " << int(section_filed[13]) << endl;
+		v_column_type->push_back(  int(section_filed[13]));
+
+	}
+
+
+
+
+
 
 }
 
@@ -241,17 +266,30 @@ public:
 
 };
 
+struct
+	filed_section {
+	int column_order;
+	std::string column_name;
+	uint8_t column_type;
+	uint16_t column_metadata_len;
+	uint16_t column_data_len;
+};
+
 class Rec {
 public:
 	Recheadfixed rechead;
 	int32_t id;
 	uint64_t trx_id;
 	Rec() = default;
-	Rec(std::ifstream &is) {
+	Rec(std::ifstream &is, std::vector<filed_section> *v_field_sections) {
 		uint32_t pos = is.tellg();
 		rechead = Recheadfixed(is);
-		byte_swap(is,id);
-		id = id & INT32_MAX;
+		
+		for (int i = 0; i < v_field_sections->size(); i++) {
+
+		}
+		
+
 		is.seekg(pos + rechead.record_next_offset);
 	}
 };
