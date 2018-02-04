@@ -88,7 +88,6 @@ void  get_table_colname_coltype(std::ifstream &is, std::vector<std::string>* v_c
 	for (int i = 0; i < n_columns; i++) {
 		uint8_t order;
 		is.read((char *)&order, 1);
-		std::cout << "order: " << int(order);
 		uint8_t com_len;
 		is.read((char *)&com_len, 1);
 		uint64_t colname_length = UnPackedLength(is);
@@ -278,18 +277,13 @@ struct
 class Rec {
 public:
 	Recheadfixed rechead;
-	int32_t id;
 	uint64_t trx_id;
+	uint8_t rec[25];
 	Rec() = default;
-	Rec(std::ifstream &is, std::vector<filed_section> *v_field_sections) {
+	Rec(std::ifstream &is) {
 		uint32_t pos = is.tellg();
 		rechead = Recheadfixed(is);
-		
-		for (int i = 0; i < v_field_sections->size(); i++) {
-
-		}
-		
-
+		is.read((char *)rec, 25);
 		is.seekg(pos + rechead.record_next_offset);
 	}
 };

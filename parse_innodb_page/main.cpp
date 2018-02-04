@@ -34,6 +34,13 @@ void get_table_record_count(const std::vector<Innodbpage>  *iv) {
 }
 
 
+uint32_t  convert_chararry_int(const uint8_t * c, uint64_t start_position) {
+	
+	uint32_t result;
+	result = (c[start_position] & 0x7f ) *0xffffff + c[start_position + 1] * 0xffff + c[start_position + 2] * 0xff + c[start_position + 3];
+	return  result & 0x7fffffff;
+}
+	
 
 int main(int argc, char **argv) {
 	std::string file_name = argv[1];
@@ -64,7 +71,7 @@ int main(int argc, char **argv) {
 			cout << "record_type: " << int(ivc->infisupre.infirechead.record_type) << " order: " << ivc->infisupre.infirechead.record_order << " infivalue: " << ivc->infisupre.infivalue << endl;
 			cout << "record_type: " << int(ivc->infisupre.suprerechead.record_type) << " order: " << ivc->infisupre.suprerechead.record_order << " suprevalue: " << std::string(ivc->infisupre.suprevalue, 8) << endl;
 			for (std::vector<Rec>::const_iterator vr = ivc->recs.cbegin(); vr != ivc->recs.cend(); vr++) {
-				cout << "record_type " << int(vr->rechead.record_type) << " order:" << vr->rechead.record_order << " Id: " << vr->id << " offset:" << vr->rechead.record_next_offset << endl;
+				cout << "record_type " << int(vr->rechead.record_type) << " order:" << vr->rechead.record_order << " Id: " << convert_chararry_int( vr->rec,0) << " offset:" << vr->rechead.record_next_offset << endl;
 			}
 		}
 
