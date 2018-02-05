@@ -121,6 +121,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="field.h" />
     <ClInclude Include="innodb_page.h" />
   </ItemGroup>
   <ItemGroup>

@@ -278,12 +278,12 @@ class Rec {
 public:
 	Recheadfixed rechead;
 	uint64_t trx_id;
-	uint8_t rec[25];
+	uint8_t rec[21];
 	Rec() = default;
 	Rec(std::ifstream &is) {
 		uint32_t pos = is.tellg();
 		rechead = Recheadfixed(is);
-		is.read((char *)rec, 25);
+		is.read((char *)rec, 21);
 		is.seekg(pos + rechead.record_next_offset);
 	}
 };

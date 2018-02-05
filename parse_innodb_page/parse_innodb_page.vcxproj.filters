@@ -18,6 +18,9 @@
     <ClInclude Include="innodb_page.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="field.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
